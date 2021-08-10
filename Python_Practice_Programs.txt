@@ -110,8 +110,11 @@ print(l(20,30))
 
 Rock Paper Scissor
 
+
 input1=int(input('Choose rock=1 or paper=2 or scissor=3, type the number assigned to ur choice '))
 input2=int(input('Choose rock=1 or paper=2 or scissor=3, type the number assigned to ur choice '))
+if(input1 !=1 or input1 !=2 or input1 !=3 or input2 !=1 or input2 !=2 or input2 !=3 ):
+    print('Read the rules properly:/')
 def rock_paper_scissor(input1,input2):
     if((input1 ==1 and input2==1) or (input1 ==2 and input2==2) or (input1 ==3 and input2==3)):
         return 'play again!'
