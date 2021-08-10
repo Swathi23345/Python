@@ -124,3 +124,13 @@ def rock_paper_scissor(input1,input2):
         return 'user2 won'
 print(rock_paper_scissor(input1,input2))
 
+
+
+modules
+
+import fibonacci_using_func as f    # aliasing is optional, but usage of it is a good practice
+print('Hi, we\'re now importing a module from fibonacci')
+x=f.fib2(30)
+print(x)
+
+
