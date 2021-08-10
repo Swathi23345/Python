@@ -1,0 +1,123 @@
+variables 
+
+i = 333
+I = 46
+__var = 25
+__var__ = 81
+#v@r=515   # cannot use @ for identifiers, throws a Syntax error(Similarly $, % cant be used)
+print(i)
+print(I)
+print(__var)
+print(__var__)
+
+
+comments
+
+''' This is
+just for practicing multiline comment!!! Hurray '''
+
+# lets do indentation exercise with if-else. N this is single line comment
+
+i=50
+if(i==10):
+    print(i)
+else:
+    print(20)
+    print('I\'m still in else')
+print ('I\'m out of if-else blocks. So always on terminal output when executed')  # gets printed all the time bcz, its not following any indentation part of it
+
+
+
+BMI
+
+height = float(input('Enter your height: '))  # in  meters
+weight = float(input('Enter your weignt: '))   # in kg
+BMI = weight/(height**2)     # kg/m^2
+#print('Your BMI is ' + BMI)  # cannot concatenate string and float
+print('Your BMI is: ')
+print(BMI)
+if(BMI < 18.5):
+    print('You are underweight :/, eat well!')
+if(18.5 < BMI <= 24.9):
+    print('Hurrayyy!! You are in healthy weight range')
+if(25<= BMI <= 29.9):
+    print('Overweighttttttt, go to gym asap')
+if(30 <= BMI <= 39.9):
+    print('Obese you\'re, workout daily!')
+
+
+
+Greatest Of Three
+
+first_num = int(input('Enter the first number: '))
+second_num = int(input('Enter the second number: '))
+third_num = int(input('Enter the third number: '))
+print('Largest: ')
+if(first_num > second_num) and (first_num > third_num):
+        print(first_num)
+elif(second_num> first_num) and (second_num>third_num):
+        print(second_num)
+else:
+        print(third_num)
+
+
+Same using functions:
+
+def largest_of_three(n1, n2, n3):
+    if(n1 > n2) and (n1 > n3):
+        return n1
+    elif(n2 > n1) and (n2>n3):
+        return n2
+    else:
+        return n3
+print('largest: ')
+print(largest_of_three(10, 20, 30))
+
+
+100years
+
+name = input('Enter your name ')
+age = int(input('Enter your age '))
+print(' Hey! You turn 100 in ')
+print((100-age)+2021)
+
+
+from datetime import date
+name = input('Enter your name ')
+age = int(input('Enter your age '))
+print(' Hey! You turn 100 in ')
+print((100-age)+date.today().year)
+
+
+Fibonacci using functions
+
+def fib2(n):
+    result = []
+    a, b = 0, 1
+    while a < n:
+        result.append(a)
+        a = b
+        b = a+b
+    return result
+print(fib2(10))
+
+
+Lambda
+
+l = lambda x,y : x+y
+print(l(20,30))
+
+
+Rock Paper Scissor
+
+input1=int(input('Choose rock=1 or paper=2 or scissor=3, type the number assigned to ur choice '))
+input2=int(input('Choose rock=1 or paper=2 or scissor=3, type the number assigned to ur choice '))
+def rock_paper_scissor(input1,input2):
+    if((input1 ==1 and input2==1) or (input1 ==2 and input2==2) or (input1 ==3 and input2==3)):
+        return 'play again!'
+    if((input1 == 1 and input2==3) or (input1 ==3 and input2 == 2) or (input1 ==2 and input2 == 1)):
+        return 'user1 won'
+    if ((input1 ==1 and input2 == 2) or (input1 ==3 and input2 ==1) or (input1 ==2 and input2 == 3)):
+        return 'user2 won'
+print(rock_paper_scissor(input1,input2))
+
