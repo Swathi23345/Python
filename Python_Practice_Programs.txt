@@ -134,3 +134,492 @@ x=f.fib2(30)
 print(x)
 
 
+importing packages
+
+from util.stringlength import strlen   # importing strlen function from util package
+str1 = 'learn python'
+print(strlen(str1))
+from allnumbers.greatest_of_two import greatest_of_two_numbers   # importing only one func, if there are other funs, import them seperately
+print(greatest_of_two_numbers(3,5))
+
+(check these packages and their files-functions in pycharm)
+
+
+
+Class Product
+
+class Product:
+    def __init__(self, pid, pname, price, stock):   # pid in int, pname str, price,stock int
+        self.id = pid
+        self.name = pname
+        self.price = price
+        self.stock = stock
+
+    def cal_total_price(self):
+        print(self.price + 0.12*self.price)
+
+
+product1 = Product(20260, 'StarBadge', 100, 1000)
+product1.cal_total_price()
+
+
+Job Tracking System
+
+class Task:
+    def __init__(self, taskid, taskdesc, start_date, end_date, status, task_priority):
+        self.taskid = taskid
+        self.taskdesc = taskdesc
+        self.startdate = start_date
+        self.enddate = end_date
+        self.status = status
+        self.task_priority = task_priority
+        self.userid = 0    # this userid isnt passed here in the constructor but initialized to 0 to link it later user user class
+
+class User:
+    def __init__(self, userid, username, email, phone):
+        self.userid = userid
+        self.username = username
+        self.email = email
+        self. phone = phone
+
+from Jobtracking_user import User
+from Jobtracking_task import Task
+
+task1 = Task(101, 'to create the UI', '11-08-2021', '13-08-2021', 'ongoing', 1)
+task2 = Task(102, 'to create the pages', '14-08-2021', '20-08-2021', 'TBS', 2)
+task3 = Task(103, 'to add the filters', '21-08-2021', '23-08-2021', 'TBS', 3)
+user1 = User(20260, 'Alexa', 'alexa123@gmail.com', 7780579795)
+user2 = User(20261, 'Siri', 'siri123@gmail.com', 7780579796)
+user3 = User(20262, 'Tuna', 'tuna123@gmail.com', 7780579791)
+
+
+def assign_task_to_user(user, task):
+    task.userid = user.userid
+
+
+assign_task_to_user(user1, task1)
+assign_task_to_user(user2, task2)
+assign_task_to_user(user3, task3)
+print('Userid assigned to task in their order:')
+print(task1.userid)
+print(task2.userid)
+print(task3.userid)
+
+
+
+
+Job tracking system
+1.	As a user, I should be able to create a task & assign to task owner
+2.	System should send notification to the concern, once task is assigned 
+3.	As a user, I should be able to prioritize tasks
+4.	As a user, I should be able to add internal notes and bookmark tasks
+5.	As a user, I should be able to create filters to make searching tasks easier 
+6.	As a user, I should be able to track completion of all tasks
+
+
+Two different classes task, user, user task - module
+
+task
+
+task id, task description, start date, due date, status, task priority, userid
+method- 
+
+user
+
+user id, user name, email, phone number
+
+user_task.py
+functions- assign_user_to_task(user,task)
+
+
+
+class Task:
+    def __init__(self, taskid, taskdesc, start_date, end_date, status, task_priority):
+        self.taskid = taskid
+        self.taskdesc = taskdesc
+        self.startdate = start_date
+        self.enddate = end_date
+        self.status = status
+        self.task_priority = task_priority
+        self.userid = 0    # this userid isnt passed here in the constructor but initialized to 0 to link it later user user class
+
+class User:
+    def __init__(self, userid, username, email, phone):
+        self.userid = userid
+        self.username = username
+        self.email = email
+        self. phone = phone
+
+class UseridError(Exception):
+    def __init__(self, message):
+        self.message = message
+
+module-assign task to user
+
+from Jobtracking_user import User
+from Jobtracking_task import Task
+from Jobtracking_user import UseridError
+
+task1 = Task(101, 'to create the UI', '11-08-2021', '13-08-2021', 'ongoing', 1)
+task2 = Task(102, 'to create the pages', '14-08-2021', '20-08-2021', 'TBS', 2)
+task3 = Task(103, 'to add the filters', '21-08-2021', '23-08-2021', 'TBS', 3)
+user1 = User(20260, 'Alexa', 'alexa123@gmail.com', 7780579795)
+user2 = User(20261, 'Siri', 'siri123@gmail.com', 7780579796)
+user3 = User(20262, 'Tuna', 'tuna123@gmail.com', 7780579791)
+
+
+def assign_task_to_user(user, task):
+    task.userid = user.userid
+
+
+assign_task_to_user(user1, task1)
+assign_task_to_user(user2, task2)
+assign_task_to_user(user3, task3)
+print('Userid assigned to task in their order:')
+print(task1.userid)
+print(task2.userid)
+print(task3.userid)
+
+
+
+# exception handling practice
+try:
+    print(task1.status)
+except:
+    status = 'TBS'
+
+
+# user defined exception handling
+if (type(user1.userid) != 'int'):
+#if (isinstance(user1.userid, int) != 'True'):
+    raise UseridError('userid not an integer')
+
+------------
+
+
+User defined errors (Raise)
+
+balance = int(input('enter a number'))
+if balance < 0:
+    raise ArithmeticError
+---------------
+
+class NegativeBalanceError (Exception):
+    def __int__(self, message):
+        self.message = message
+
+
+from NegativeBalanceError import NegativeBalanceError
+
+def checkBalance():
+    balance = int(input("Enter a number"))
+    if(balance < 0 ):
+        raise NegativeBalanceError("Negative Balance")
+
+try:
+    checkBalance()
+except (NegativeBalanceError):
+    print("Negative Balance")
+-------------------
+
+
+Working with database
+
+
+for user
+
+
+
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host="127.0.0.1",
+    user="root",
+    password="",
+    database="python"
+)
+
+mycursor = mydb.cursor()
+
+#mycursor.execute("CREATE TABLE customer (name VARCHAR(255), address VARCHAR(255))")
+sql = "INSERT INTO user (userid, username, email, phone) VALUES (%s, %s, %s, %s)"
+val = (20263, "Siri", "siri@gmail.com", 7780579798)
+mycursor.execute(sql, val)
+mydb.commit()
+print(mycursor.rowcount, "record inserted.")
+
+mycursor.execute("SELECT * FROM user")
+myresult = mycursor.fetchall()
+print(myresult)
+# print(myresult[1])
+#print("taskid  |  taskdescription  |  startdate |  enddate |  status |  taskpriority")
+#x=0
+#while x<len(myresult):
+   # print(myresult)
+    #x=x+1
+
+#for x in myresult:
+    #print(x)
+    #x < len(myresult)
+    # print(type(x))
+mydb.close()
+
+
+
+
+
+for task:
+
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host="127.0.0.1",
+    user="root",
+    password="",
+    database="python"
+)
+
+mycursor = mydb.cursor()
+
+#mycursor.execute("CREATE TABLE customer (name VARCHAR(255), address VARCHAR(255))")
+sql = "INSERT INTO task (taskid, taskdescription, startdate, enddate, status, taskpriority) VALUES (%s, %s, %s, %s, %s, %s)"
+val = (101, "Start Page Design", "14-08-2021", "15-08-2021", "To be started", 2)   #insert values of other rows by replacing these
+mycursor.execute(sql, val)
+mydb.commit()
+print(mycursor.rowcount, "record inserted.")
+
+mycursor.execute("SELECT * FROM task")
+myresult = mycursor.fetchall()
+print(myresult)
+print(myresult[1])  #to display first entry(first record) of tuple(myresult) 
+#print("taskid  |  taskdescription  |  startdate |  enddate |  status |  taskpriority")
+#x=0
+#while x<len(myresult):
+   # print(myresult)
+    #x=x+1
+
+#for x in myresult:
+    #print(x)
+    #x < len(myresult)
+    # print(type(x))
+mydb.close()
+===========================================
+
+sql+python practice
+
+import mysql.connector
+mydb = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password='Telecomee*23',
+    database = 'python'   # not used while showing the database
+)
+
+# checking if may database called python is already been initiated in mysql
+"""
+mycursor = mydb.cursor()
+mycursor.execute("SHOW DATABASES")
+for db in mycursor:
+    print(db)
+
+output=
+('information_schema',)
+('mysql',)
+('performance_schema',)
+('python',)
+('sys',)
+
+"""
+# creating table in the database python...so in the start in mydb mention database too
+""" 
+mycursor = mydb.cursor()
+mycursor.execute("CREATE TABLE dummy (name VARCHAR(255), age INT)")
+for tb in mycursor:
+    print(tb)
+# crosscheck in the database also to see this dummy table(on LHS)  
+"""
+# inserting values to our table dummy
+""" 
+mycursor = mydb.cursor()
+sql = "INSERT INTO dummy (name, age) values (%s, %s)"
+dummy1 = ("Rachel", 22)
+mycursor.execute(sql, dummy1)
+mydb.commit()
+
+# to insert many values at once 
+
+dummy = [("priya", 23), ("Alex", 24), ("Tuna", 35)]
+mycursor.executemany(sql, dummy)"""
+
+# updating entries
+""" 
+sql = "UPDATE dummy SET age=13 WHERE name = 'Rachel' "
+mycursor.execute(sql) """
+
+
+====================================================
+
+Casestudy
+
+
+class ForUser:
+    def __init__(self, userid, user_name, role, dob, created_on, modified_on ):
+        self.userid = userid
+        self.username = user_name
+        # self.phone = phone
+        self.role = role
+        self.dob = dob
+        self.created_on = created_on
+        self.modified_on = modified_on
+
+
+class ForTask:
+    def __init__(self, task_id, name, description, status, priority, notes, bookmark, owner_id, creator_id, created_on, modified_on):
+        self.task_id = task_id
+        self.name = name
+        self.description = description
+        self.status = status
+        self.priority = priority
+        self.notes = notes
+        self.bookmark = bookmark
+        self.owner_id = owner_id
+        self.creator_id = creator_id
+        self.created_on = created_on
+        self.modified_on = modified_on
+
+
+from user_task_classes import ForTask
+import mysql.connector
+
+def ConnectToDB():
+    mydb = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='Telecomee*23',
+        database='python'
+    )
+    return mydb
+
+
+def CreateTable():
+    mydb = ConnectToDB()
+    mycursor = mydb.cursor()
+    # sql = "CREATE TABLE task (taskidid INT, name VARCHAR(20), description VARCHAR(255), status VARCHAR(20), priority INT, notes VARCHAR(20), bookmark VARCHAR(20), owner_id INT, creator_id INT, created_on VARCHAR(20), modified_on VARCHAR(20))"
+    mycursor.execute('CREATE TABLE task (task_id INT, name VARCHAR(20), description VARCHAR(255), status VARCHAR(20), priority INT, notes VARCHAR(255), bookmark VARCHAR(20), owner_id INT, creator_id INT, created_on VARCHAR(20), modified_on VARCHAR(20))')
+    mydb.commit()
+    return mycursor
+
+"""
+
+for tb in CreateTable():
+    print(tb)
+"""
+
+def InsertIntoTable(user_task_classes):
+   mydb = ConnectToDB()
+   mycursor = mydb.cursor()
+   sql = "INSERT INTO task (task_id, name, description, status, priority, notes, bookmark, owner_id, creator_id, created_on, modified_on) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+   val = (user_task_classes.task_id, user_task_classes.name, user_task_classes.description, user_task_classes.status, user_task_classes.priority, user_task_classes.notes, user_task_classes.bookmark, user_task_classes.owner_id, user_task_classes.creator_id, user_task_classes.created_on, user_task_classes.modified_on)
+   mycursor.execute(sql, val)
+   mydb.commit()
+
+"""
+task1 = ForTask(101, "Task", "UI design", "Ongoing", 1, "some updates should be made", "Yes", 20261, 20261, "10-08-2021", "12-08-2021")
+InsertIntoTable(task1)
+"""
+
+def UpdateTable():
+    db = ConnectToDB()
+    cursor = db.cursor()
+    cursor.execute("UPDATE task SET task_id=156 WHERE name='Task'")
+    db.commit()
+    return cursor
+
+"""
+for updatedtable in UpdateTable():
+    print(updatedtable)"""
+
+-----
+
+def CreateTable():
+    mydb = ConnectToDB()
+    mycursor = mydb.cursor()
+    # sql = "CREATE TABLE user (userid INT, user_name VARCHAR(20), phone VARCHAR(20), role VARCHAR(20), dob VARCHAR(20), created_on VARCHAR(20), modified_on VARCHAR(20))"
+    #mycursor.execute("CREATE TABLE USERSS (userid INT, user_name VARCHAR(20), phone VARCHAR(255), role VARCHAR(20), dob VARCHAR(20), created_on  VARCHAR(20), modified_on VARCHAR(20))")
+    mycursor.execute("CREATE TABLE xyz (userid INT, user_name VARCHAR(20), role VARCHAR(20), dob VARCHAR(20), created_on  VARCHAR(20), modified_on VARCHAR(20))")
+    mydb.commit()
+    return mycursor
+
+
+"""
+for tb in CreateTable():
+    print(tb)
+
+"""
+
+def InsertIntoTable(user_task_classes):
+   mydb = ConnectToDB()
+   mycursor = mydb.cursor()
+   sql = "INSERT INTO xyz (userid, user_name, role, dob, created_on, modified_on) VALUES (%s, %s, %s, %s, %s, %s)"
+   val = (user_task_classes.userid, user_task_classes.username, user_task_classes.role, user_task_classes.dob, user_task_classes.created_on, user_task_classes.modified_on)
+   mycursor.execute(sql, val)
+   mydb.commit()
+
+
+"""
+
+user1 = ForUser(20260, "Swathi", "TTS", "23-03-2000", "10-08-2021", "12-08-2021")
+InsertIntoTable(user1)
+
+"""
+
+def UpdateTable():
+    db = ConnectToDB()
+    cursor = db.cursor()
+    cursor.execute("UPDATE xyz SET userid=20261 WHERE user_name='Swathi'")
+    db.commit()
+    return cursor
+
+"""
+for updatedtable in UpdateTable():
+    print(updatedtable)"""
+
+
+=============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
