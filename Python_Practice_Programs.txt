@@ -585,7 +585,160 @@ for updatedtable in UpdateTable():
     print(updatedtable)"""
 
 
+
+
+write one main program, where take the user details from key borad and insert and update
+
+
+import mysql.connector
+from dao.user_task_classes import ForTask, ForUser
+
+func = input(""" Choose one:
+          i.  Create User
+          ii. Update User
+          iii.Create Task
+          iv. Update Task
+        """)
+
+
+def ConnectToDB():
+    db = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='Telecomee*23',
+        database='casestudy'
+    )
+    return db
+
+
+def i(): # create user
+    mydb = ConnectToDB()
+    mycursor = mydb.cursor()
+    mycursor.execute(
+        "CREATE TABLE user (userid INT, user_name VARCHAR(20), role VARCHAR(20), dob VARCHAR(20), created_on  VARCHAR(20),modified_on VARCHAR(20))")
+    mydb.commit()
+    return mycursor
+
+
+def ii(user_task_classes):  # updating user
+    mydb = ConnectToDB()
+    mycursor = mydb.cursor()
+    sql = "INSERT INTO user (userid, user_name, role, dob, created_on, modified_on) VALUES (%s, %s, %s, %s, %s, %s)"
+    val = (user_task_classes.userid, user_task_classes.username, user_task_classes.role, user_task_classes.dob,
+           user_task_classes.created_on, user_task_classes.modified_on)
+    mycursor.execute(sql, val)
+    mydb.commit()
+
+
+def iii():   # creating task
+    mydb = ConnectToDB()
+    mycursor = mydb.cursor()
+    mycursor.execute(
+        'CREATE TABLE task (task_id INT, name VARCHAR(20), description VARCHAR(255), status VARCHAR(20), priority INT, '
+        'notes VARCHAR(255), bookmark VARCHAR(20), owner_id INT, creator_id INT, created_on VARCHAR(20), '
+        'modified_on VARCHAR(20))')
+    mydb.commit()
+    return mycursor
+
+
+def iv(user_task_classes):  # update task
+    mydb = ConnectToDB()
+    mycursor = mydb.cursor()
+    sql = "INSERT INTO task (task_id, name, description, status, priority, notes, bookmark, owner_id, creator_id, " \
+          "created_on, modified_on) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    val = (user_task_classes.task_id, user_task_classes.name, user_task_classes.description, user_task_classes.status,
+           user_task_classes.priority, user_task_classes.notes, user_task_classes.bookmark, user_task_classes.owner_id,
+           user_task_classes.creator_id, user_task_classes.created_on, user_task_classes.modified_on)
+    mycursor.execute(sql, val)
+    mydb.commit()
+
+
+"""
+if func in locals():
+    todo = locals()[func]
+    todo()"""
+
+if func == 'i':
+    i()
+elif func == 'ii':
+    userid = int(input('Enter the userid: '))
+    username = input('Enter the username: ')
+    role = input('Enter the role: ')
+    dob = input('Enter the dob: ')
+    created_on = input('Enter created_on: ')
+    modified_on = input('Enter modified_on ')
+    user1 = ForUser(userid, username, role, dob,
+                    created_on, modified_on)
+    ii(user1)
+elif func == 'iii':
+    iii()
+else:
+    task_id = int(input('Enter the task_id: '))
+    name = input('Enter the name: ')
+    description = input('Enter the description: ')
+    status = input('Enter the status: ')
+    priority = int(input('Enter the priority of the task: '))
+    notes = input('Enter the notes: ')
+    bookmark = input('Is it bookmarked? : ')
+    owner_id = int(input('Enter the owner_id: '))
+    creator_id = int(input('Enter the creator_id: '))
+    created_on = input('Enter created_on: ')
+    modified_on = input('Enter modified_on: ')
+    task1 = ForTask(task_id, name, description,
+                    status, priority, notes,
+                    bookmark, owner_id, creator_id,created_on,
+                    modified_on)
+    iv(task1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 =============================================================
+
+"""
+Take two lists, say for example these two:
+a = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+b = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+and write a program that returns a list that contains only the elements that are common between the lists
+(without duplicates). Make sure your program works on two lists of different sizes.
+5. Let’s say I give you a list saved in a variable: a = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100].
+Write one line of Python that takes this list a and makes a new list that has only the even elements of this list
+in it.
+"""
+
+# 4
+"""
+list1 = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+list2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+def CommonElements(list1, list2):
+    list1_set = set(list1)
+    list2_set = set(list2)
+    if(list1_set & list2_set):
+        return (list1_set & list2_set)
+    else:
+        return ('nothing in common')
+print(CommonElements(list1, list2))
+"""
+
+# 5
+a = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+even_list = [x for x in a if x%2 == 0]
+print(even_list)
 
 
 
