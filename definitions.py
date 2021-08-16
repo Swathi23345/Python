@@ -1,7 +1,5 @@
 import mysql.connector
-
-from dao import user_task_classes
-from dao.user_task_classes import ForUser
+import smtplib
 
 
 def ConnectToDB():
@@ -17,15 +15,15 @@ def ConnectToDB():
 def CreateUser():
     mydb = ConnectToDB()
     mycursor = mydb.cursor()
-    mycursor.execute("CREATE TABLE user (user_id INT, user_name VARCHAR(20),phone VARCHAR(20), role VARCHAR(20), dob VARCHAR(20), created_on  VARCHAR(20), modified_on VARCHAR(20))")
+    mycursor.execute("CREATE TABLE user (user_id INT, user_name VARCHAR(20),phone VARCHAR(20), email VARCHAR(255), role VARCHAR(20), dob VARCHAR(20), created_on  VARCHAR(20), modified_on VARCHAR(20))")
     mydb.commit()
 
 
 def InsertIntoUser(user_task_classes):
     mydb = ConnectToDB()
     mycursor = mydb.cursor()
-    sql = "INSERT INTO user (user_id, user_name, phone, role, dob, created_on, modified_on) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    val = (user_task_classes.user_id, user_task_classes.user_name, user_task_classes.phone, user_task_classes.role, user_task_classes.dob,
+    sql = "INSERT INTO user (user_id, user_name, phone, email, role, dob, created_on, modified_on) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+    val = (user_task_classes.user_id, user_task_classes.user_name, user_task_classes.phone,user_task_classes.email, user_task_classes.role, user_task_classes.dob,
                user_task_classes.created_on, user_task_classes.modified_on)
     mycursor.execute(sql, val)
     mydb.commit()
@@ -100,14 +98,15 @@ def UpdateStatus(task_id, status):
 # method to get all tasks  for a given user
 
 
-def AllTasksUser():
+def AllTasksUser(userid):
     db = ConnectToDB()
     cursor = db.cursor()
-    sql = "SELECT user.user_name as user, task.name as task_name FROM user INNER JOIN task ON user.user_id = task. owner_id"
-    cursor.execute(sql)
+    sql = "SELECT user.user_name as user, task.name as task_name FROM user INNER JOIN task ON user.user_id = task. owner_id WHERE user_id = %s"
+    val = (userid, )
+    cursor.execute(sql, val)
     result = cursor.fetchall()
     for x in result:
-        print(x)
+        return result
 
 
 # get all  tasks based on the status
@@ -119,7 +118,7 @@ def TasksBasedOnStatus(status):
     cursor.execute(sql, val)
     result = cursor.fetchall()
     for x in result:
-        print(x)
+        return result
 
 
 # get all tasks (without any condition)
@@ -129,11 +128,36 @@ def AllTasks():
     sql = 'SELECT name FROM task'
     cursor.execute(sql)
     result = cursor.fetchall()
-    print(result)
+    return result
+
+
+# assigning task, email
+def AssignTask(user_id, task_id):
+    db = ConnectToDB()
+    cursor = db.cursor()
+    sql = "UPDATE task SET owner_id = %s WHERE task_id = %s"
+    val = (user_id, task_id)
+    cursor.execute(sql, val)
+    db.commit()
+    server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+    server.login("swathipriyarv23@gmail.com", "")
+    server.sendmail("swathipriyarv23@gmail.com", SendingEmail(user_id), "Hey! You are assigned with a task, check the user table!")
+    server.quit()
+
+
+def SendingEmail(user_id):
+    db = ConnectToDB()
+    cursor = db.cursor()
+    sql = "SELECT email FROM user WHERE user_id = %s"
+    val = (user_id, )
+    cursor.execute(sql, val)
+    for x in cursor:
+        return x
+
 
 """
 db = ConnectToDB()
 cursor = db.cursor()
-sql = "UPDATE user SET role = 'Developer' WHERE userid=20264"
+sql = "UPDATE user SET email = 'swathipriyarv23@gmail.com' WHERE user_id=20260"
 cursor.execute(sql)
 db.commit()"""

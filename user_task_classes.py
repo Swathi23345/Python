@@ -1,8 +1,9 @@
 class ForUser:
-    def __init__(self, user_id, user_name, phone, role, dob, created_on, modified_on):
+    def __init__(self, user_id, user_name, phone, email, role, dob, created_on, modified_on):
         self.user_id = user_id
         self.user_name = user_name
         self.phone = phone
+        self.email = email
         self.role = role
         self.dob = dob
         self.created_on = created_on

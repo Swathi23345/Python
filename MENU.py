@@ -1,5 +1,5 @@
 from dao.definitions import InsertIntoTask, UpdatePriority, UpdateNotes, UpdateBookmark, UpdateStatus, \
-    InsertIntoUser, AllTasksUser, TasksBasedOnStatus, AllTasks
+    InsertIntoUser, AllTasksUser, TasksBasedOnStatus, AllTasks, AssignTask
 from dao.user_task_classes import ForTask, ForUser
 
 func = input(""" Choose one:
@@ -12,6 +12,7 @@ func = input(""" Choose one:
            7.AllTasksUser
            8.TasksBasedOnStatus
            9.AllTasks
+           10. AssignTask
         """)
 
 
@@ -19,11 +20,12 @@ if func == 'InsertIntoUser':
     user_id = int(input('Enter the user_id: '))
     user_name = input('Enter the user_name: ')
     phone = input('Enter the phone number: ')
+    email = input('Enter the email: ')
     role = input('Enter the role: ')
     dob = input('Enter the dob: ')
     created_on = input('Enter created_on: ')
     modified_on = input('Enter modified_on ')
-    user1 = ForUser(user_id, user_name, phone, role, dob,
+    user1 = ForUser(user_id, user_name, phone, email, role, dob,
                     created_on, modified_on)
     InsertIntoUser(user1)
 
@@ -41,7 +43,7 @@ if func == 'InsertIntoTask':
     modified_on = input('Enter modified_on: ')
     task1 = ForTask(task_id, name, description,
                     status, priority, notes,
-                    bookmark, owner_id, creator_id,created_on,
+                    bookmark, owner_id, creator_id, created_on,
                     modified_on)
     InsertIntoTask(task1)
 
@@ -66,15 +68,20 @@ if func == 'UpdateStatus':
     UpdateStatus(y, x)
 
 if func == 'AllTasksUser':
-    AllTasksUser()
+    x = int(input('Enter the user_id: '))
+    print(AllTasksUser(x))
 
 if func == 'TasksBasedOnStatus':
     y = input("Choose the status, Done or Ongoing or To be started: ")
-    TasksBasedOnStatus(y)
+    print(TasksBasedOnStatus(y))
 
 if func == 'AllTasks':
     AllTasks()
 
+if func == 'AssignTask':
+    x = int(input('Enter user_id: '))
+    y = int(input('Enter task_id: '))
+    AssignTask(x, y)
 
 
 
